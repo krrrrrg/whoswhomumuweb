@@ -25,13 +25,15 @@ body {
 .main-nav {
   position: fixed;
   width: 100%;
-  padding: 1.5rem;
-  background: rgba(255, 248, 220, 0.9);
+  padding: 1.2rem 2rem;
+  background: rgba(255, 248, 220, 0.95);
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(139, 94, 60, 0.1);
 }
 
 .logo {
@@ -44,34 +46,58 @@ body {
 }
 
 .logo-image {
-  height: 50px;
+  height: 45px;
   width: auto;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
 
 .logo-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.05) rotate(-2deg);
 }
 
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: var(--text-color);
-  font-weight: 500;
+  color: var(--primary-color);
+  font-family: var(--title-font);
+  font-size: 1.2rem;
   transition: all 0.3s ease;
-  font-family: var(--body-font);
-  letter-spacing: 0.5px;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
 }
 
 .nav-links a:hover {
-  color: var(--primary-color);
-  transform: scale(1.1);
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.menu-icon {
+  display: none;
 }
 
 /* Hero Section */
@@ -269,49 +295,67 @@ footer {
     padding: 1rem;
   }
 
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100vh;
-    width: 70%;
-    background: var(--background-color);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: 0.3s ease;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-links.active {
-    right: 0;
-  }
-
   .menu-toggle {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 10px;
+    width: 35px;
+    height: 35px;
+    position: relative;
     cursor: pointer;
+    z-index: 1002;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
   }
 
   .bar {
-    width: 25px;
-    height: 3px;
-    background-color: var(--primary-color);
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    margin: 2px 0;
+    border-radius: 10px;
     transition: all 0.3s ease;
   }
 
+  .bar:nth-child(1) {
+    width: 50%;
+    margin-left: auto;
+  }
+
+  .bar:nth-child(2) {
+    width: 100%;
+  }
+
+  .bar:nth-child(3) {
+    width: 75%;
+    margin-left: auto;
+  }
+
   .bar.active:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
+    transform: translateY(6px) rotate(45deg);
+    width: 100%;
+    margin-left: 0;
   }
 
   .bar.active:nth-child(2) {
     opacity: 0;
+    transform: translateX(-10px);
   }
 
   .bar.active:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
+    transform: translateY(-6px) rotate(-45deg);
+    width: 100%;
+    margin-left: 0;
   }
 
   .hero-content {
@@ -328,6 +372,40 @@ footer {
   .contact-info {
     width: 90%;
     padding: 1.5rem;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 70%;
+    background: rgba(255, 248, 220, 0.98);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    gap: 2rem;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+  }
+
+  .menu-toggle:hover .menu-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .menu-toggle.active .menu-icon {
+    transform: rotate(180deg);
   }
 }
 
