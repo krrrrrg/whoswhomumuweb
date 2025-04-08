@@ -110,23 +110,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 페이지 로드 시 음악 재생 시도
   function playMusic() {
-    bgMusic
-      .play()
-      .then(() => {
-        console.log("음악 재생 시작");
-      })
-      .catch((error) => {
-        console.log("자동 재생 실패:", error);
-        // 사용자 상호작용(클릭) 시 재생 시도
-        document.addEventListener(
-          "click",
-          function initAudio() {
-            bgMusic.play();
-            document.removeEventListener("click", initAudio);
-          },
-          { once: true }
-        );
-      });
+    // 음악 로드 확인
+    if (bgMusic.readyState === 0) {
+      console.log("음악 파일을 로드하는 중...");
+      bgMusic.load();
+    }
+
+    // 음악 재생
+    const playPromise = bgMusic.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          console.log("음악 재생 시작");
+          bgMusic.volume = 0.5; // 볼륨 50%로 설정
+        })
+        .catch((error) => {
+          console.log("자동 재생 실패:", error);
+          // 사용자 상호작용(클릭) 시 재생 시도
+          document.addEventListener(
+            "click",
+            function initAudio() {
+              bgMusic.play().then(() => {
+                console.log("클릭 후 음악 재생 시작");
+                bgMusic.volume = 0.5;
+              });
+              document.removeEventListener("click", initAudio);
+            },
+            { once: true }
+          );
+        });
+    }
   }
 
   // 페이지 로드 시 재생 시도
@@ -138,20 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
       bgMusic.pause();
     } else {
       playMusic();
-    }
-  });
-
-  // 기존 코드 유지
-  const audioControl = document.getElementById("audioControl");
-
-  audioControl.addEventListener("click", function () {
-    if (bgMusic.paused) {
-      bgMusic.play();
-      bgMusic.muted = false;
-      audioControl.textContent = "🔇 음악 중지";
-    } else {
-      bgMusic.pause();
-      audioControl.textContent = "🔊 음악 재생";
     }
   });
 });
