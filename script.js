@@ -103,3 +103,23 @@ sections.forEach((section) => {
   section.style.opacity = "0";
   sectionObserver.observe(section);
 });
+
+// 배경 음악 자동 재생
+document.addEventListener("DOMContentLoaded", function () {
+  const bgMusic = document.getElementById("bgMusic");
+
+  // 페이지 로드 시 음악 재생 시도
+  bgMusic.play().catch(function (error) {
+    console.log("자동 재생 실패:", error);
+
+    // 자동 재생이 실패한 경우, 첫 클릭 시 재생
+    document.addEventListener(
+      "click",
+      function initAudio() {
+        bgMusic.play();
+        document.removeEventListener("click", initAudio);
+      },
+      { once: true }
+    );
+  });
+});
