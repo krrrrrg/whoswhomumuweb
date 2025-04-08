@@ -493,3 +493,24 @@ html {
 .audio-toggle.muted .audio-icon {
   opacity: 0.5;
 }
+
+.audio-control {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: rgba(139, 94, 60, 0.9);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.audio-control:hover {
+  background: rgba(139, 94, 60, 1);
+  transform: scale(1.05);
+}

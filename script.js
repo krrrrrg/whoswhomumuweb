@@ -107,6 +107,7 @@ sections.forEach((section) => {
 // 배경 음악 자동 재생
 document.addEventListener("DOMContentLoaded", function () {
   const bgMusic = document.getElementById("bgMusic");
+  const audioControl = document.getElementById("audioControl");
 
   // 페이지 로드 시 음악 재생 시도
   bgMusic.play().catch(function (error) {
@@ -121,5 +122,16 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       { once: true }
     );
+  });
+
+  audioControl.addEventListener("click", function () {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      bgMusic.muted = false;
+      audioControl.textContent = "🔇 음악 중지";
+    } else {
+      bgMusic.pause();
+      audioControl.textContent = "🔊 음악 재생";
+    }
   });
 });
