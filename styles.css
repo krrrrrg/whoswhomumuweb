@@ -401,7 +401,7 @@ footer {
   }
 
   .menu-toggle:hover .menu-icon {
-    transform: scale(1.1) rotate(5deg);
+    transform: rotate(180deg);
   }
 
   .menu-toggle.active .menu-icon {

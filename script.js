@@ -107,22 +107,42 @@ sections.forEach((section) => {
 // 배경 음악 자동 재생
 document.addEventListener("DOMContentLoaded", function () {
   const bgMusic = document.getElementById("bgMusic");
-  const audioControl = document.getElementById("audioControl");
 
   // 페이지 로드 시 음악 재생 시도
-  bgMusic.play().catch(function (error) {
-    console.log("자동 재생 실패:", error);
+  function playMusic() {
+    bgMusic
+      .play()
+      .then(() => {
+        console.log("음악 재생 시작");
+      })
+      .catch((error) => {
+        console.log("자동 재생 실패:", error);
+        // 사용자 상호작용(클릭) 시 재생 시도
+        document.addEventListener(
+          "click",
+          function initAudio() {
+            bgMusic.play();
+            document.removeEventListener("click", initAudio);
+          },
+          { once: true }
+        );
+      });
+  }
 
-    // 자동 재생이 실패한 경우, 첫 클릭 시 재생
-    document.addEventListener(
-      "click",
-      function initAudio() {
-        bgMusic.play();
-        document.removeEventListener("click", initAudio);
-      },
-      { once: true }
-    );
+  // 페이지 로드 시 재생 시도
+  playMusic();
+
+  // 페이지 가시성 변경 시 재생/일시정지
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      bgMusic.pause();
+    } else {
+      playMusic();
+    }
   });
+
+  // 기존 코드 유지
+  const audioControl = document.getElementById("audioControl");
 
   audioControl.addEventListener("click", function () {
     if (bgMusic.paused) {
